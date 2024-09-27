@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .form_auth_block_head_text {
+    width: 150px;
+    height: 150px;
+    bottom: 200px;
+    position: relative;
+    }
+    .form_auth_style {
+    bottom: 200px;
+    left: 24px;
+    position: relative;
+    }
+    body {
+      font-family: Arial, sans-serif; /* Устанавливаем шрифт для всего тела */
+      font-size: 25px; /* Устанавливаем размер шрифта для всего тела */
+    }
+    .form_auth_block_head_text {
+      font-size: 40px; /* Размер шрифта заголовка */
+      font-weight: bold; /* Жирный шрифт для заголовка */
+    }
+    label {
+      font-size: 18px; /* Размер шрифта для меток */
+    }
+    input {
+      font-size: 16px; /* Размер шрифта для полей ввода */
+    }
+    .form_auth_button {
+      font-size: 18px; /* Размер шрифта для кнопки */
+      top: 20px;
+      left: 63px;
+      background: #ffd77f;
+      color: #ff2f8c;
+      position: relative;
+    }
+    body {
+            display: flex;
+            justify-content: center; /* Центрирование по горизонтали */
+            align-items: center;    /* Центрирование по вертикали */
+            height: 100vh;          /* Высота вьюпорта */
+            margin: 0;              /* Убираем отступы */
+        }
+  </style>
+</head>
+<body>
+    <div class="form_auth_block">
+      <div class="form_auth_block_content">
+        <p class="form_auth_block_head_text">Авторизация</p>
+        <form class="form_auth_style" action="#" method="post">
+          <div>
+            <label>Введите Ваше имя</label>
+          </div>
+          <div>
+            <input type="text" name="name" id="name" placeholder="Имя" required >
+          </div>
+          <div>
+            <label>Введите эл.почту</label>
+          </div>
+          <div>
+            <input type="email" name="id_email" id="id_email" placeholder="Почта" required >
+          </div>
+          <div>
+            <label>Введите пароль</label>
+          </div>
+          <div>
+            <input type="password" name="password" id="password" placeholder="Пароль" required >
+          </div>
+          <button class="form_auth_button" type="submit" name="form_auth_submit">Войти</button>
+        </form>
+      </div>
+    </div>
+</body>
+</html>
