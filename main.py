@@ -33,7 +33,10 @@ def nex():
 
         try:
             answer = writing_log_in(email, password, name)
-            return render_template('start.html', link=answer)
+            if answer == 'Почта уже зарегистрирована, введитее другую':
+                return render_template('login.html', error=answer)
+            else:
+                return render_template('start.html', link=answer)
         except Exception:
             print('Ошибка')
     if request.method == 'GET':
@@ -49,6 +52,8 @@ def sign_in():
 
         try:
             answer = writing_sign_in(email, password, name)
+            if answer == 'Проверьте данные':
+                return render_template('sign in.html', error=answer)
             return render_template('start.html', link=answer)
         except Exception:
             print('Ошибка')
