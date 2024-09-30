@@ -1,8 +1,7 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
-from UserLogin import UserInfo
-from write import writing
+from write import writing_sign_in, writing_log_in
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -33,12 +32,28 @@ def nex():
         name = request.form['name']
 
         try:
-            answer = writing(email, password, name)
+            answer = writing_log_in(email, password, name)
             return render_template('start.html', link=answer)
         except Exception:
             print('Ошибка')
     if request.method == 'GET':
         return render_template('login.html')
+
+
+@app.route('/signin', methods=['GET', 'POST'])
+def sign_in():
+    if request.method == 'POST':
+        email = request.form['id_email']
+        password = request.form['password']
+        name = request.form['name']
+
+        try:
+            answer = writing_sign_in(email, password, name)
+            return render_template('start.html', link=answer)
+        except Exception:
+            print('Ошибка')
+    if request.method == 'GET':
+        return render_template('sign in.html')
 
 
 if __name__ == '__main__':
