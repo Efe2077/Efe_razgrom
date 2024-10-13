@@ -9,11 +9,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-@app.route('/info')
-def show_info():
-    return 'lol'
-
-
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -21,7 +16,18 @@ def home():
 
 @app.route('/start')
 def start():
-    return render_template('home.html')
+    return render_template('start.html')
+
+
+@app.route('/form', methods=['GET', 'POST'])
+def show_info():
+    # if request.method == 'POST':
+    #     print(request.form)
+    if request.method == 'GET':
+        return render_template('/questions.html')
+    else:
+        print(request.form)
+        return 'YEEEEEEE!!!!!!'
 
 
 @app.route('/login', methods=['GET', 'POST'])

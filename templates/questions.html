@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Заполнение формы</title>
+  <style>
+    .form_for_form {
+          display: grid;
+         justify-content: center; /* Центрирование по горизонтали */
+         align-items: center;    /* Центрирование по вертикали */
+         height: 30vh;          /* Высота вьюпорта */
+         margin: 0;
+    }
+    body {
+         background: #E5FFFF;
+    }
+  </style>
+</head>
+<body>
+  <form class="form_for_form" action="#" method="post">
+    <div>
+      <label>{{error}}</label>
+    </div>
+    <div>
+      <label>Введите ваше ФИО</label>
+    </div>
+    <div>
+      <input type="text" name="fio" id="fio" placeholder="Ваше ФИО" required >
+    </div>
+    <div>
+      <label>Введите название музея</label>
+    </div>
+    <div>
+      <input type="text" name="museum" id="museum" placeholder="азвание музея" required >
+    </div>
+    <div>
+      <label>Введите количество участников</label>
+    </div>
+    <div>
+      <input type="number" name="quantity" id="quantity" placeholder="Количество" required >
+    </div>
+    <button formmethod="post" type="submit" name="send_info_submit">Отправить</button>
+  </form>
+</body>
+</html>
