@@ -27,3 +27,17 @@ def writing_log_in(email, password, name):
         con.close()
         return f"Здравствуйте, {name}, мы рады, что вы к нам присоеденились!"
 
+
+def writing_information(lst):
+    con = sqlite3.connect('blog.db')
+    cur = con.cursor()
+    res = cur.execute(f"SELECT fio FROM Informations WHERE fio = '{lst[0]}'").fetchall()
+    if not res:
+        cur.execute(f"""INSERT INTO Informations(fio, post, event, sch_class,
+                        quantity, when_go, place, time_go, time_ar, time_now, people)
+                        VALUES('{lst[0]}', '{lst[1]}', '{lst[2]}', '{lst[3]}', '{lst[4]}', '{lst[5]}',
+                        '{lst[6]}', '{lst[7]}', '{lst[8]}', '{lst[9]}', '{lst[10]}')
+                        """).fetchall()
+    else:
+        print(res)
+        print('Заявка уже есть, просмотрите ее или измените')

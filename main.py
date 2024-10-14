@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
-from write import writing_sign_in, writing_log_in
+from write import writing_sign_in, writing_log_in, writing_information
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -21,13 +21,15 @@ def start():
 
 @app.route('/form', methods=['GET', 'POST'])
 def show_info():
-    # if request.method == 'POST':
-    #     print(request.form)
     if request.method == 'GET':
         return render_template('/questions.html')
-    else:
-        print(request.form)
-        return 'YEEEEEEE!!!!!!'
+    if request.method == 'POST':
+        a = ['fio', 'post', 'event', 'sch_class', 'quantity',
+             'when_go', 'place', 'time_go', 'time_ar', 'time_now',
+             'people'
+             ]
+        writing_information([request.form[keys] for keys in a])
+        return 'YEEEEEEEEEEEE!!!!!!!!!!'
 
 
 @app.route('/login', methods=['GET', 'POST'])
