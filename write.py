@@ -2,7 +2,7 @@ import sqlite3
 
 
 def writing_sign_in(email, password, name):
-    con = sqlite3.connect('blog.db')
+    con = sqlite3.connect('db/blog.db')
     cur = con.cursor()
     res = cur.execute(f"SELECT email_id, password, name FROM Users WHERE email_id = '{email}' "
                       f"AND password = '{password}' AND name = '{name}'").fetchall()
@@ -15,7 +15,7 @@ def writing_sign_in(email, password, name):
 
 
 def writing_log_in(email, password, name):
-    con = sqlite3.connect('blog.db')
+    con = sqlite3.connect('db/blog.db')
     cur = con.cursor()
     res = cur.execute(f"SELECT email_id, password, name FROM Users WHERE email_id = '{email}'").fetchall()
     if res:
@@ -29,7 +29,7 @@ def writing_log_in(email, password, name):
 
 
 def writing_information(lst):
-    con = sqlite3.connect('info.db')
+    con = sqlite3.connect('db/info.db')
     cur = con.cursor()
     res = cur.execute(f"SELECT fio FROM Info WHERE fio = '{lst[0]}'").fetchall()
     if not res:

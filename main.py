@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
-from write import writing_sign_in, writing_log_in, writing_information
+from data import db_session
+from data.UserLogin import User
+
+from write import writing_sign_in, writing_information
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -14,9 +17,15 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/start')
+@app.route('/start', methods=['GET', 'POST'])
 def start():
-    return render_template('start.html')
+    if request.method == 'POST':
+        line = request.args
+        user_id = line.get('secret-key')
+        name = line.get('name')
+        return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
+    else:
+        return render_template('start.html')
 
 
 @app.route('/form', methods=['GET', 'POST'])
@@ -24,12 +33,11 @@ def show_info():
     if request.method == 'GET':
         return render_template('/questions.html')
     if request.method == 'POST':
-        a = ['fio', 'post', 'event', 'sch_class', 'quantity',
-             'when_go', 'place', 'time_go', 'time_ar', 'time_now',
-             'people'
-             ]
-        writing_information([request.form[keys] for keys in a])
-        return 'YEEEEEEEEEEEE!!!!!!!!!!'
+        line = request.args.get('secret-key')
+        for user in db_session.create_session().query(User):
+            if user.id == line:
+                print(user.name)
+        return render_template('/start.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -40,13 +48,16 @@ def nex():
         name = request.form['name']
 
         try:
-            answer = writing_log_in(email, password, name)
-            if answer == 'Почта уже зарегистрирована, введитее другую':
-                return render_template('login.html', error=answer)
-            else:
-                return render_template('start.html', link=answer)
+            user = User()
+            user.name = name
+            user.email_id = email
+            user.password = password
+            db_sess = db_session.create_session()
+            db_sess.add(user)
+            db_sess.commit()
+            return render_template('start.html/?aboba', link=f'Привет, {name}')
         except Exception:
-            print('Ошибка')
+            return render_template('login.html', error='Почта уже используется')
     if request.method == 'GET':
         return render_template('login.html')
 
@@ -56,18 +67,17 @@ def sign_in():
     if request.method == 'POST':
         email = request.form['id_email']
         password = request.form['password']
-        name = request.form['name']
 
-        try:
-            answer = writing_sign_in(email, password, name)
-            if answer == 'Проверьте данные':
-                return render_template('sign in.html', error=answer)
-            return render_template('start.html', link=answer)
-        except Exception:
-            print('Ошибка')
+        db_sess = db_session.create_session()
+        for user in db_sess.query(User):
+            if email == user.email_id and password == user.password:
+                return redirect(f'http://127.0.0.1:8080/start?secret-key={User.id}&name={user.id}')
+
+        return render_template('sign in.html', error='Проверьте данные')
     if request.method == 'GET':
         return render_template('sign in.html')
 
 
 if __name__ == '__main__':
+    db_session.global_init("db/blog.db")
     app.run(port=8080, host='127.0.0.1')
