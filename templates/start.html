@@ -21,48 +21,26 @@
   <form method="post">
     <div>{{link}}</div>
     <div>
-      <button formmethod="post" type="submit" name="btn">Создать заявку</button>
+      <button formmethod="post" type="submit" name="make_form">Создать заявку</button>
     </div>
-   </form>
-  <h1>Записи в блоге</h1>
+  <h1>Ваши заявки</h1>
   {% for item in info%}
   <div class="border_rounded">
-    <h2>{{item.event}}</h2>
-    <div>
-      {{item.fio}}
-    </div>
-    <div>
-      {{item.post}}
-    </div>
-    <div>
-      {{item.event}}
-    </div>
-    <div>
-      {{item.sch_class}}
-    </div>
-    <div>
-      {{item.quantity}}
-    </div>
-    <div>
-      {{item.when_go}}
-    </div>
-    <div>
-      {{item.place}}
-    </div>
-    <div>
-      {{item.time_go}}
-    </div>
-    <div>
-      {{item.time_ar}}
-    </div>
-    <div>
-      {{item.time_now}}
-    </div>
-    <div>
-      {{item.people}}
-    </div>
+    <h2>{{item.event}} <button formmethod="post" type="submit" name="del{{item.id}}">Удалить</button> </h2>
+    <div>{{item.fio}}</div>
+    <div>{{item.post}}</div>
+    <div>{{item.event}}</div>
+    <div>{{item.sch_class}}</div>
+    <div>{{item.quantity}} </div>
+    <div>{{item.when_go}}</div>
+    <div>{{item.place}} </div>
+    <div>{{item.time_go}}</div>
+    <div>{{item.time_ar}}</div>
+    <div>{{item.time_now}}</div>
+    <div>{{item.people}}</div>
 
   </div>
   {% endfor %}
+  </form>
 </body>
 </html>

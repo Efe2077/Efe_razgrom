@@ -21,18 +21,33 @@ def home():
 @app.route('/start', methods=['GET', 'POST'])
 def start():
     if request.method == 'POST':
+        value = str(request.get_data())
+        value = value[2:value.find('=')]
         line = request.args
         user_id = line.get('secret-key')
         name = line.get('name')
-        return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
+        if value == 'make_form':
+            return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
+        else:
+            id_of_delete = value[value.find('del')+3:]
+            db_sess = db_session.create_session()
+            db_sess.query(Info).filter(Info.id == id_of_delete).delete()
+            db_sess.commit()
+            return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
     else:
         value_of_id = request.args.get('secret-key')
         db_sess = db_session.create_session().query(Info)
+        info = ''
+        name = ''
+        for user in db_session.create_session().query(User):
+            if user.id == int(value_of_id):
+                name = user.name
+                break
         for information in db_sess:
             if information.user_id == int(value_of_id):
-                name = information.name
-                return render_template('start.html', link=f'Привет, {name}', info=db_sess)
-        return render_template('start.html', link=f'Привет')
+                info = db_sess
+                break
+        return render_template('start.html', link=f'Привет, {name}', info=info)
 
 
 @app.route('/form', methods=['GET', 'POST'])
@@ -71,16 +86,15 @@ def nex():
         email = request.form['id_email']
         password = request.form['password']
         name = request.form['name']
-
+        user = User()
+        user.name = name
+        user.email_id = email
+        user.password = password
+        db_sess = db_session.create_session()
+        db_sess.add(user)
+        db_sess.commit()
         try:
-            user = User()
-            user.name = name
-            user.email_id = email
-            user.password = password
-            db_sess = db_session.create_session()
-            db_sess.add(user)
-            db_sess.commit()
-            return render_template('start.html/?aboba', link=f'Привет, {name}')
+            return redirect(f'http://127.0.0.1:8080/start?secret-key={user.id}&name={user.name}')
         except Exception:
             return render_template('login.html', error='Почта уже используется')
     if request.method == 'GET':
