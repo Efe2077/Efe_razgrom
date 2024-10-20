@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
+from write import check_admin
+
 from data import db_session
 from data.UserLogin import User
 from data.Information import Info
-
-from write import writing_sign_in, writing_information
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -45,9 +45,13 @@ def start():
                 break
         for information in db_sess:
             if information.user_id == int(value_of_id):
-                info = db_sess
+                info = db_sess.filter(Info.id == int(value_of_id))
                 break
-        return render_template('start.html', link=f'Привет, {name}', info=info)
+        print(check_admin(name))
+        if check_admin(name):
+            return render_template('start.html', link=f'Привет, {name}', info=db_sess)
+        else:
+            return render_template('start.html', link=f'Привет, {name}', info=info)
 
 
 @app.route('/form', methods=['GET', 'POST'])
