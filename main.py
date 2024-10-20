@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from data import db_session
 from data.UserLogin import User
+from data.Information import Info
 
 from write import writing_sign_in, writing_information
 
@@ -25,7 +26,13 @@ def start():
         name = line.get('name')
         return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
     else:
-        return render_template('start.html')
+        value_of_id = request.args.get('secret-key')
+        db_sess = db_session.create_session().query(Info)
+        for information in db_sess:
+            if information.user_id == int(value_of_id):
+                name = information.name
+                return render_template('start.html', link=f'Привет, {name}', info=db_sess)
+        return render_template('start.html', link=f'Привет')
 
 
 @app.route('/form', methods=['GET', 'POST'])
@@ -35,9 +42,27 @@ def show_info():
     if request.method == 'POST':
         line = request.args.get('secret-key')
         for user in db_session.create_session().query(User):
-            if user.id == line:
-                print(user.name)
-        return render_template('/start.html')
+            if user.id == int(line):
+                info = Info()
+                info.fio = request.form['fio']
+                info.post = request.form['post']
+                info.event = request.form['event']
+                info.sch_class = request.form['sch_class']
+                info.quantity = request.form['quantity']
+                info.when_go = request.form['when_go']
+                info.place = request.form['place']
+                info.time_go = request.form['time_go']
+                info.time_ar = request.form['time_ar']
+                info.time_now = request.form['time_now']
+                info.people = request.form['people']
+                info.user_id = user.id
+                info.name = user.name
+
+                db_sess = db_session.create_session()
+                db_sess.add(info)
+                db_sess.commit()
+                return redirect(f'http://127.0.0.1:8080/start?secret-key={line}&name={user.name}')
+        return render_template('start.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -71,7 +96,7 @@ def sign_in():
         db_sess = db_session.create_session()
         for user in db_sess.query(User):
             if email == user.email_id and password == user.password:
-                return redirect(f'http://127.0.0.1:8080/start?secret-key={User.id}&name={user.id}')
+                return redirect(f'http://127.0.0.1:8080/start?secret-key={user.id}&name={user.name}')
 
         return render_template('sign in.html', error='Проверьте данные')
     if request.method == 'GET':

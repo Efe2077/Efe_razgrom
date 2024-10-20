@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Start</title>
+  <style>
+    .border_rounded{
+    border: 2px outset black;
+    background-color: #E5FFFF;
+    width: 500px;
+    height: 300px;
+    bottom: 20px;
+    position: relative;
+    top: 20%;
+    left: 10%;
+    margin: 0;
+    }
+  </style>
 </head>
 <body>
   <form method="post">
@@ -11,5 +24,45 @@
       <button formmethod="post" type="submit" name="btn">Создать заявку</button>
     </div>
    </form>
+  <h1>Записи в блоге</h1>
+  {% for item in info%}
+  <div class="border_rounded">
+    <h2>{{item.event}}</h2>
+    <div>
+      {{item.fio}}
+    </div>
+    <div>
+      {{item.post}}
+    </div>
+    <div>
+      {{item.event}}
+    </div>
+    <div>
+      {{item.sch_class}}
+    </div>
+    <div>
+      {{item.quantity}}
+    </div>
+    <div>
+      {{item.when_go}}
+    </div>
+    <div>
+      {{item.place}}
+    </div>
+    <div>
+      {{item.time_go}}
+    </div>
+    <div>
+      {{item.time_ar}}
+    </div>
+    <div>
+      {{item.time_now}}
+    </div>
+    <div>
+      {{item.people}}
+    </div>
+
+  </div>
+  {% endfor %}
 </body>
 </html>

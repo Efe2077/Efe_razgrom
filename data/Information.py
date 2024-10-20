@@ -13,6 +13,7 @@ class Info(SqlAlchemyBase):
     quantity = sqlalchemy.Column(sqlalchemy.Integer, index=True, unique=False, nullable=True)
     when_go = sqlalchemy.Column(sqlalchemy.String, index=True, unique=False, nullable=True)
     place = sqlalchemy.Column(sqlalchemy.String, index=True, unique=False, nullable=True)
+    time_ar = sqlalchemy.Column(sqlalchemy.String, index=True, unique=False, nullable=True)
     time_go = sqlalchemy.Column(sqlalchemy.String, index=True, unique=False, nullable=True)
     time_now = sqlalchemy.Column(sqlalchemy.String, index=True, unique=False, nullable=True)
     people = sqlalchemy.Column(sqlalchemy.String, index=True, unique=False, nullable=True)
