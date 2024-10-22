@@ -37,17 +37,9 @@ def start():
     else:
         value_of_id = request.args.get('secret-key')
         db_sess = db_session.create_session().query(Info)
-        info = ''
-        name = ''
-        for user in db_session.create_session().query(User):
-            if user.id == int(value_of_id):
-                name = user.name
-                break
-        for information in db_sess:
-            if information.user_id == int(value_of_id):
-                info = db_sess.filter(Info.id == int(value_of_id))
-                break
-        print(check_admin(name))
+        db_sess2 = db_session.create_session().query(User)
+        name = db_sess2.filter(User.id == int(value_of_id))[0].name
+        info = db_sess.filter(Info.user_id == int(value_of_id))
         if check_admin(name):
             return render_template('start.html', link=f'Привет, {name}', info=db_sess)
         else:
