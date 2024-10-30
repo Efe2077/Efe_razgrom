@@ -21,4 +21,8 @@ class Info(SqlAlchemyBase):
 
     user_id = sqlalchemy.Column(sqlalchemy.Integer,
                                 sqlalchemy.ForeignKey("Users.id"))
+
     user = orm.relationship('User')
+
+    def __repr__(self):
+        return self.id, self.fio, self.post, self.event

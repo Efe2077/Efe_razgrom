@@ -26,7 +26,7 @@
   <h1>Ваши заявки</h1>
   {% for item in info%}
   <div class="border_rounded">
-    <h2>{{item.event}} <button formmethod="post" type="submit" name="del{{item.id}}">Удалить</button> <button formmethod="post" type="submit" name="redact{{item.id}}">Изменить</button></h2>
+    <h2>{{item.event}} <button formmethod="post" type="submit" name="del{{item.id}}">Удалить</button></h2>
     <div>{{item.fio}}</div>
     <div>{{item.post}}</div>
     <div>{{item.event}}</div>

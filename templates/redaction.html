@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Start</title>
+  <style>
+    .border_rounded{
+    border: 2px outset black;
+    background-color: #E5FFFF;
+    width: 500px;
+    height: 300px;
+    bottom: 10px;
+    position: relative;
+    top: 20%;
+    left: 10%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ваша заявка</h1>
+  <form method="post">
+    {% for item in info%}
+    <div class="border_rounded">
+      <div>{{item.fio}} <input type="text" name="change_fio" id="change_fio"></div>
+      <div>{{item.post}} <input type="text" name="change_post" id="change_post"></div>
+      <div>{{item.event}} <input type="text" name="change_event" id="change_event"></div>
+      <div>{{item.sch_class}}</div>
+      <div>{{item.quantity}} </div>
+      <div>{{item.when_go}}</div>
+      <div>{{item.place}} </div>
+      <div>{{item.time_go}}</div>
+      <div>{{item.time_ar}}</div>
+      <div>{{item.time_now}}</div>
+      <div>{{item.people}}</div>
+      <div>
+        <button formmethod="post" name="save_changes{{item.id}}" id="save_changes">Сохранить</button>
+      </div>
+    </div>
+    {% endfor %}
+  </form>
+</body>
+</html>

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 
 from write import check_admin
 
@@ -22,12 +23,37 @@ def home():
 def start():
     if request.method == 'POST':
         value = str(request.get_data())
-        value = value[2:value.find('=')]
+        if '&' in value:
+            value = value[value.rfind('&')+1:value.rfind('=')]
+        else:
+            value = value[2:value.find('=')]
         line = request.args
         user_id = line.get('secret-key')
         name = line.get('name')
+        print(value)
         if value == 'make_form':
             return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
+        if 'redact' in value:
+            db_sess = db_session.create_session().query(Info).filter(Info.id == value[6:])
+            return render_template(f'redaction.html', info=db_sess)
+        if 'save_changes' in value:
+            command = [i for i in request.form.keys()][:-1]
+            db_sess = db_session.create_session()
+
+            info = db_sess.query(Info).filter(Info.id == value[12:])
+            for num, i in enumerate([i for i in request.form.values()][:-1]):
+                if i:
+                    print(i, command[num])
+                    if command[num] == 'change_fio':
+                        info.fio = i
+                        db_sess.commit()
+                    elif command[num] == 'change_post':
+                        info.post = i
+                        db_sess.commit()
+                    elif command[num] == 'change_event':
+                        info.event = i
+                        db_sess.commit()
+            return 'OK'
         else:
             id_of_delete = value[value.find('del')+3:]
             db_sess = db_session.create_session()
@@ -41,7 +67,7 @@ def start():
         name = db_sess2.filter(User.id == int(value_of_id))[0].name
         info = db_sess.filter(Info.user_id == int(value_of_id))
         if check_admin(name):
-            return render_template('start.html', link=f'Привет, {name}', info=db_sess)
+            return render_template('start_for_admin.html', link=f'Привет, {name}', info=db_sess)
         else:
             return render_template('start.html', link=f'Привет, {name}', info=info)
 
@@ -74,6 +100,11 @@ def show_info():
                 db_sess.commit()
                 return redirect(f'http://127.0.0.1:8080/start?secret-key={line}&name={user.name}')
         return render_template('start.html')
+
+
+# @app.route('/redact', methods=['GET', 'POST'])
+# def redact():
+#     return render_template('redaction.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -115,4 +146,7 @@ def sign_in():
 
 if __name__ == '__main__':
     db_session.global_init("db/blog.db")
+    # engine = create_engine('mysql://scot:tiger@localhost/blog.db')
+    # engine.connect()
     app.run(port=8080, host='127.0.0.1')
+
