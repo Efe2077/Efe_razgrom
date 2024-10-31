@@ -40,20 +40,33 @@ def start():
             command = [i for i in request.form.keys()][:-1]
             db_sess = db_session.create_session()
 
-            info = db_sess.query(Info).filter(Info.id == value[12:])
+            info = db_sess.query(Info).filter(Info.id == value[12:]).first()
             for num, i in enumerate([i for i in request.form.values()][:-1]):
                 if i:
-                    print(i, command[num])
                     if command[num] == 'change_fio':
                         info.fio = i
-                        db_sess.commit()
                     elif command[num] == 'change_post':
                         info.post = i
-                        db_sess.commit()
                     elif command[num] == 'change_event':
                         info.event = i
-                        db_sess.commit()
-            return 'OK'
+                    elif command[num] == 'change_sch_class':
+                        info.sch_class = i
+                    elif command[num] == 'change_quantity':
+                        info.quantity = i
+                    elif command[num] == 'change_when_go':
+                        info.when_go = i
+                    elif command[num] == 'change_place':
+                        info.place = i
+                    elif command[num] == 'change_time_go':
+                        info.time_go = i
+                    elif command[num] == 'change_time_ar':
+                        info.time_ar = i
+                    elif command[num] == 'change_time_now':
+                        info.time_now = i
+                    elif command[num] == 'change_people':
+                        info.people = i
+            db_sess.commit()
+            return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
         else:
             id_of_delete = value[value.find('del')+3:]
             db_sess = db_session.create_session()
@@ -146,7 +159,7 @@ def sign_in():
 
 if __name__ == '__main__':
     db_session.global_init("db/blog.db")
-    # engine = create_engine('mysql://scot:tiger@localhost/blog.db')
+    # engine = create_engine('sqlite:///blog.db')
     # engine.connect()
     app.run(port=8080, host='127.0.0.1')
 
