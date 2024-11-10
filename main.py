@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
 
 from write import check_admin
+from make_and_send_file import render_doc, delete_file
 
 from data import db_session
 from data.UserLogin import User
@@ -27,15 +27,31 @@ def start():
             value = value[value.rfind('&')+1:value.rfind('=')]
         else:
             value = value[2:value.find('=')]
+
         line = request.args
         user_id = line.get('secret-key')
         name = line.get('name')
-        print(value)
+
         if value == 'make_form':
             return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
         if 'redact' in value:
             db_sess = db_session.create_session().query(Info).filter(Info.id == value[6:])
             return render_template(f'redaction.html', info=db_sess)
+        if 'download_file' in value:
+            db_sess = db_session.create_session().query(Info).filter(Info.id == value[13:]).first()
+            render_doc(db_sess.fio, db_sess.post, db_sess.event,
+                       db_sess.sch_class, db_sess.quantity, db_sess.when_go,
+                       db_sess.place, db_sess.time_go, db_sess.time_now,
+                       [db_sess.people], db_sess.time_ar, db_sess.id)
+
+            path = f'outputs/{db_sess.id}.docx'
+            filename = f'{db_sess.id}.docx'
+            return send_file(
+                path,
+                mimetype='docx',
+                download_name=filename,
+                as_attachment=True
+                )
         if 'save_changes' in value:
             command = [i for i in request.form.keys()][:-1]
             db_sess = db_session.create_session()
@@ -82,6 +98,11 @@ def start():
         if check_admin(name):
             return render_template('start_for_admin.html', link=f'Привет, {name}', info=db_sess)
         else:
+            db_sess3 = db_sess.filter(Info.user_id == value_of_id).all()
+
+            for i in db_sess3:
+                delete_file(i.id)
+
             return render_template('start.html', link=f'Привет, {name}', info=info)
 
 
