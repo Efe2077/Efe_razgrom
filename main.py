@@ -85,7 +85,7 @@ def start():
             return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
         if 'admin_download' in value:
             info = db_session.create_session().query(Info).filter(Info.id == value[14:]).first()
-            render_official_doc(info.name, info.sch_class, info.place,
+            render_official_doc(info.name, info.sch_class, info.place, info.event,
                                 info.when_go, info.time_go, info.time_now, value[14:])
 
             path = f'outputs_from_admin/{info.id}.docx'
@@ -109,12 +109,14 @@ def start():
         name = db_sess2.filter(User.id == int(value_of_id))[0].name
         info = db_sess.filter(Info.user_id == int(value_of_id))
         if check_admin(name):
+            for i in db_sess.filter(Info.user_id == value_of_id).all():
+                delete_file(i.id, 'outputs_from_admin')
             return render_template('start_for_admin.html', link=f'Привет, {name}', info=db_sess)
         else:
             db_sess3 = db_sess.filter(Info.user_id == value_of_id).all()
 
             for i in db_sess3:
-                delete_file(i.id)
+                delete_file(i.id, 'outputs')
 
             return render_template('start.html', link=f'Привет, {name}', info=info)
 
@@ -147,11 +149,6 @@ def show_info():
                 db_sess.commit()
                 return redirect(f'http://127.0.0.1:8080/start?secret-key={line}&name={user.name}')
         return render_template('start.html')
-
-
-# @app.route('/redact', methods=['GET', 'POST'])
-# def redact():
-#     return render_template('redaction.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -193,7 +190,5 @@ def sign_in():
 
 if __name__ == '__main__':
     db_session.global_init("db/blog.db")
-    # engine = create_engine('sqlite:///blog.db')
-    # engine.connect()
     app.run(port=8080, host='127.0.0.1')
 
