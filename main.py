@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, send_file
 from flask_sqlalchemy import SQLAlchemy
 
 from write import check_admin
-from make_and_send_file import render_doc, delete_file
+from make_and_send_file import render_doc, delete_file, render_official_doc
 
 from data import db_session
 from data.UserLogin import User
@@ -83,6 +83,19 @@ def start():
                         info.people = i
             db_sess.commit()
             return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
+        if 'admin_download' in value:
+            info = db_session.create_session().query(Info).filter(Info.id == value[14:]).first()
+            render_official_doc(info.name, info.sch_class, info.place,
+                                info.when_go, info.time_go, info.time_now, value[14:])
+
+            path = f'outputs_from_admin/{info.id}.docx'
+            filename = f'{info.id}.docx'
+            return send_file(
+                path,
+                mimetype='docx',
+                download_name=filename,
+                as_attachment=True
+                )
         else:
             id_of_delete = value[value.find('del')+3:]
             db_sess = db_session.create_session()
