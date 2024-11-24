@@ -58,9 +58,9 @@ def make_dicts(names):
     for i in range(ceil(len(lst) / 3)):
         if x < len(lst):
             x += 3
-            all_dict.append({'label': f'{i + 1}', "cols": lst[i * 3: x]})
+            all_dict.append({"cols": lst[i * 3: x]})
         else:
-            all_dict.append({'label': f'{i + 1}', "cols": lst[x - 1:]})
+            all_dict.append({"cols": lst[x - 1:]})
 
     return all_dict
 
