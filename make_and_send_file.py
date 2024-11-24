@@ -1,5 +1,6 @@
 import os
 from math import ceil
+import pymorphy2
 
 from docxtpl import DocxTemplate
 
@@ -9,19 +10,19 @@ def delete_file(id_of_file, folder):
         os.remove(f'{folder}/{id_of_file}.docx')
 
 
-def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
-    doc = DocxTemplate("prikaz.docx")
-    context = {
-        "name": name,
-        "grade": grade,
-        "address": address,
-        "event": event,
-        "date": date,
-        "time1": time1,
-        "time2": time2
-    }
-    doc.render(context)
-    doc.save(f"outputs_from_admin/{name_of_file}.docx")
+# def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
+#     doc = DocxTemplate("prikaz.docx")
+#     context = {
+#         "name": name,
+#         "grade": grade,
+#         "address": address,
+#         "event": event,
+#         "date": date,
+#         "time1": time1,
+#         "time2": time2
+#     }
+#     doc.render(context)
+#     doc.save(f"outputs_from_admin/{name_of_file}.docx")
 
 
 def make_table(names):
@@ -83,3 +84,39 @@ def render_doc(name, post, event, grade, number, date, address, time1, date2, it
     doc.render(context)
 
     doc.save(f"outputs/{name_of_file}.docx")
+
+
+def declension(name, case):
+    morph = pymorphy2.MorphAnalyzer()
+    parsed_name = morph.parse(name)[0]
+    return parsed_name.inflect({case}).word
+
+
+def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
+    name_nom = name
+    name_gen = declension(name, 'gent').capitalize()
+    name_dat = declension(name, 'datv').capitalize()
+    name_acc = declension(name, 'accs').capitalize()
+    name_abl = declension(name, 'ablt').capitalize()
+    name_loc = declension(name, 'loct').capitalize()
+
+    context = {
+        "name_nom": name_nom,
+        "name_gen": name_gen,
+        "name_dat": name_dat,
+        "name_acc": name_acc,
+        "name_abl": name_abl,
+        "name_loc": name_loc,
+        "grade": grade,
+        "event": event,
+        "address": address,
+        "date": date,
+        "time1": time1,
+        "time2": time2
+    }
+
+    doc = DocxTemplate("prikaz.docx")
+    doc.render(context)
+    doc.save(f"outputs_from_admin/{name_of_file}res_prikaz.docx")
+
+
