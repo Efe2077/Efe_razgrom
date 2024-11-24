@@ -42,7 +42,7 @@ def start():
             render_doc(db_sess.fio, db_sess.post, db_sess.event,
                        db_sess.sch_class, db_sess.quantity, db_sess.when_go,
                        db_sess.place, db_sess.time_go, db_sess.time_now,
-                       [db_sess.people], db_sess.time_ar, db_sess.id)
+                       db_sess.people, db_sess.time_ar, db_sess.id)
 
             path = f'outputs/{db_sess.id}.docx'
             filename = f'{db_sess.id}.docx'

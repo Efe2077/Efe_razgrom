@@ -1,24 +1,7 @@
 import os
+from math import ceil
+
 from docxtpl import DocxTemplate
-
-
-def render_doc(name, post, event, grade, number, date, address, time1, date2, items, time2, name_of_file):
-    doc = DocxTemplate("test2.docx")
-    context = {
-        "name": name,
-        "post": post,
-        "event": event,
-        "grade": grade,
-        "number": number,
-        "address": address,
-        "date": date,
-        "time1": time1,
-        "time2": time2,
-        "date2": date2,
-        "items": items
-    }
-    doc.render(context)
-    doc.save(f"outputs/{name_of_file}.docx")
 
 
 def delete_file(id_of_file, folder):
@@ -39,3 +22,64 @@ def render_official_doc(name, grade, address, event, date, time1, time2, name_of
     }
     doc.render(context)
     doc.save(f"outputs_from_admin/{name_of_file}.docx")
+
+
+def make_table(names):
+    import docx
+    doc = docx.Document()
+
+    lst = names.split(', ')
+
+    table = doc.add_table(rows=ceil(len(lst) / 3), cols=3)
+    table.style = 'Table Grid'
+
+    pos = 0
+    for row in range(ceil(len(lst) / 3)):
+        for col in range(3):
+            if pos < len(lst):
+                cell = table.cell(row, col)
+                cell.text = lst[pos].capitalize()
+                pos += 1
+
+    doc.save('table_test.docx')
+
+
+def make_dicts(names):
+    lst = []
+
+    for value in names.split(', '):
+        value = value.capitalize().rstrip()
+        lst.append(value)
+
+    all_dict = []
+
+    x = 0
+
+    for i in range(ceil(len(lst) / 3)):
+        if x < len(lst):
+            x += 3
+            all_dict.append({'label': f'{i + 1}', "cols": lst[i * 3: x]})
+        else:
+            all_dict.append({'label': f'{i + 1}', "cols": lst[x - 1:]})
+
+    return all_dict
+
+
+def render_doc(name, post, event, grade, number, date, address, time1, date2, items, time2, name_of_file):
+    doc = DocxTemplate("test2.docx")
+    context = {
+        "name": name,
+        "post": post,
+        "event": event,
+        "grade": grade,
+        "number": number,
+        "address": address,
+        "date": date,
+        "time1": time1,
+        "time2": time2,
+        "date2": date2,
+        "tbl_contents": make_dicts(items)
+    }
+    doc.render(context)
+
+    doc.save(f"outputs/{name_of_file}.docx")
