@@ -85,7 +85,7 @@ def start():
             return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
         if 'admin_download' in value:
             info = db_session.create_session().query(Info).filter(Info.id == value[14:]).first()
-            render_official_doc(info.name, info.sch_class, info.place, info.event,
+            render_official_doc(info.fio, info.sch_class, info.place, info.event,
                                 info.when_go, info.time_go, info.time_now, value[14:])
 
             path = f'outputs_from_admin/{info.id}res_prikaz.docx'
@@ -191,4 +191,3 @@ def sign_in():
 if __name__ == '__main__':
     db_session.global_init("db/blog.db")
     app.run(port=8080, host='127.0.0.1')
-

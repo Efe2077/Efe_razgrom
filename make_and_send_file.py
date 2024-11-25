@@ -78,7 +78,7 @@ def declension(name, case):
 
 
 def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
-    name_nom = name
+    name = name.split()[0]
     name_gen = declension(name, 'gent').capitalize()
     name_dat = declension(name, 'datv').capitalize()
     name_acc = declension(name, 'accs').capitalize()
@@ -86,7 +86,7 @@ def render_official_doc(name, grade, address, event, date, time1, time2, name_of
     name_loc = declension(name, 'loct').capitalize()
 
     context = {
-        "name_nom": name_nom,
+        "name_nom": name,
         "name_gen": name_gen,
         "name_dat": name_dat,
         "name_acc": name_acc,
@@ -105,3 +105,6 @@ def render_official_doc(name, grade, address, event, date, time1, time2, name_of
     doc.save(f"outputs_from_admin/{name_of_file}res_prikaz.docx")
 
 
+render_official_doc('Миндрин Матвей Юрьевич', '10М', 'Школа 1018, Шолохова 20',
+                    'Дом бобра', '01.01.2025', '8:15',
+                    '14.10.2024', '5')
