@@ -10,21 +10,6 @@ def delete_file(id_of_file, folder):
         os.remove(f'{folder}/{id_of_file}.docx')
 
 
-# def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
-#     doc = DocxTemplate("prikaz.docx")
-#     context = {
-#         "name": name,
-#         "grade": grade,
-#         "address": address,
-#         "event": event,
-#         "date": date,
-#         "time1": time1,
-#         "time2": time2
-#     }
-#     doc.render(context)
-#     doc.save(f"outputs_from_admin/{name_of_file}.docx")
-
-
 def make_table(names):
     import docx
     doc = docx.Document()
