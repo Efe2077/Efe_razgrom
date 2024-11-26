@@ -78,7 +78,7 @@ def declension(name, case):
 
 
 def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
-    name = name.split()[0]
+    name = name.split()[1]
     name_gen = declension(name, 'gent').capitalize()
     name_dat = declension(name, 'datv').capitalize()
     name_acc = declension(name, 'accs').capitalize()
