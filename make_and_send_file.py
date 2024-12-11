@@ -10,31 +10,11 @@ def delete_file(id_of_file, folder):
         os.remove(f'{folder}/{id_of_file}.docx')
 
 
-def make_table(names):
-    import docx
-    doc = docx.Document()
-
-    lst = names.split(', ')
-
-    table = doc.add_table(rows=ceil(len(lst) / 3), cols=3)
-    table.style = 'Table Grid'
-
-    pos = 0
-    for row in range(ceil(len(lst) / 3)):
-        for col in range(3):
-            if pos < len(lst):
-                cell = table.cell(row, col)
-                cell.text = lst[pos].capitalize()
-                pos += 1
-
-    doc.save('table_test.docx')
-
-
 def make_dicts(names):
     lst = []
 
     for value in names.split(', '):
-        value = value.capitalize().rstrip()
+        value = value.rstrip()
         lst.append(value)
 
     all_dict = []
@@ -105,6 +85,6 @@ def render_official_doc(name, grade, address, event, date, time1, time2, name_of
     doc.save(f"outputs_from_admin/{name_of_file}res_prikaz.docx")
 
 
-render_official_doc('Миндрин Матвей Юрьевич', '10М', 'Школа 1018, Шолохова 20',
-                    'Дом бобра', '01.01.2025', '8:15',
-                    '14.10.2024', '5')
+# render_official_doc('Миндрин Матвей Юрьевич', '10М', 'Школа 1018, Шолохова 20',
+#                     'Дом бобра', '01.01.2025', '8:15',
+#                     '14.10.2024', '5')

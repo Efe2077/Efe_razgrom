@@ -8,6 +8,9 @@ from data import db_session
 from data.UserLogin import User
 from data.Information import Info
 
+import datetime as dt
+
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -104,21 +107,29 @@ def start():
             return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
     else:
         value_of_id = request.args.get('secret-key')
-        db_sess = db_session.create_session().query(Info)
-        db_sess2 = db_session.create_session().query(User)
-        name = db_sess2.filter(User.id == int(value_of_id))[0].name
-        info = db_sess.filter(Info.user_id == int(value_of_id))
-        if check_admin(name):
-            for i in db_sess.filter(Info.user_id == value_of_id).all():
-                delete_file(i.id, 'outputs_from_admin')
-            return render_template('start_for_admin.html', link=f'Привет, {name}', info=db_sess)
+        name = request.args.get('name')
+
+        db_session1 = db_session.create_session().query(User).filter(User.id == value_of_id, User.name == name).all()
+        if db_session1:
+
+            db_sess = db_session.create_session().query(Info)
+
+            info = db_sess.filter(Info.user_id == int(value_of_id))
+
+            if check_admin(name):
+                for i in db_sess.filter(Info.user_id == value_of_id).all():
+                    delete_file(i.id, 'outputs_from_admin')
+                return render_template('start_for_admin.html', link=f'Привет, {name}', info=db_sess)
+            else:
+                db_sess3 = db_sess.filter(Info.user_id == value_of_id).all()
+
+                for i in db_sess3:
+                    delete_file(i.id, 'outputs')
+                    delete_file(str(i.id)+'res_prikaz', 'outputs_from_admin')
+
+                return render_template('start.html', link=f'Привет, {name}', info=info)
         else:
-            db_sess3 = db_sess.filter(Info.user_id == value_of_id).all()
-
-            for i in db_sess3:
-                delete_file(i.id, 'outputs')
-
-            return render_template('start.html', link=f'Привет, {name}', info=info)
+            return '404 Not Found!'
 
 
 @app.route('/form', methods=['GET', 'POST'])
@@ -135,11 +146,20 @@ def show_info():
                 info.event = request.form['event']
                 info.sch_class = request.form['sch_class']
                 info.quantity = request.form['quantity']
-                info.when_go = request.form['when_go']
+                when_go = request.form['when_go']
+                when_go = dt.date(int(when_go[:4]), int(when_go[5:7]), int(when_go[8:]))
+                info.when_go = when_go
                 info.place = request.form['place']
-                info.time_go = request.form['time_go']
-                info.time_ar = request.form['time_ar']
-                info.time_now = request.form['time_now']
+                time_go = request.form['time_go']
+                time_go = dt.time(int(time_go[:2]), int(time_go[3:])).strftime('%H:%M')
+                info.time_go = time_go
+                time_ar = request.form['time_ar']
+                time_ar = dt.time(int(time_ar[:2]), int(time_ar[3:])).strftime('%H:%M')
+                print(type(time_ar))
+                info.time_ar = time_ar
+                time_now = request.form['time_now']
+                time_now = dt.date(int(time_now[:4]), int(time_now[5:7]), int(time_now[8:]))
+                info.time_now = time_now
                 info.people = request.form['people']
                 info.user_id = user.id
                 info.name = user.name
