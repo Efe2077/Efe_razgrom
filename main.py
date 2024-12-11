@@ -155,7 +155,6 @@ def show_info():
                 info.time_go = time_go
                 time_ar = request.form['time_ar']
                 time_ar = dt.time(int(time_ar[:2]), int(time_ar[3:])).strftime('%H:%M')
-                print(type(time_ar))
                 info.time_ar = time_ar
                 time_now = request.form['time_now']
                 time_now = dt.date(int(time_now[:4]), int(time_now[5:7]), int(time_now[8:]))
@@ -165,6 +164,7 @@ def show_info():
                 info.name = user.name
 
                 db_sess = db_session.create_session()
+                print(db_sess)
                 db_sess.add(info)
                 db_sess.commit()
                 return redirect(f'http://127.0.0.1:8080/start?secret-key={line}&name={user.name}')
