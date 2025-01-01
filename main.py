@@ -116,17 +116,13 @@ def start():
 
             info = db_sess.filter(Info.user_id == int(value_of_id))
 
-            if check_admin(name):
-                for i in db_sess.filter(Info.user_id == value_of_id).all():
-                    delete_file(i.id, 'outputs_from_admin')
-                return render_template('start_for_admin.html', link=f'Привет, {name}', info=db_sess)
+            for i in db_sess.all():
+                delete_file(i.id, 'outputs')
+                delete_file(i.id, 'outputs_from_admin', official='res_prikaz')
+
+            if check_admin(name, value_of_id):
+                return render_template('start_for_admin.html', link=f'Привет, админ {name}', info=db_sess)
             else:
-                db_sess3 = db_sess.filter(Info.user_id == value_of_id).all()
-
-                for i in db_sess3:
-                    delete_file(i.id, 'outputs')
-                    delete_file(str(i.id)+'res_prikaz', 'outputs_from_admin')
-
                 return render_template('start.html', link=f'Привет, {name}', info=info)
         else:
             return '404 Not Found!'
@@ -177,17 +173,22 @@ def nex():
         email = request.form['id_email']
         password = request.form['password']
         name = request.form['name']
-        user = User()
-        user.name = name
-        user.email_id = email
-        user.password = password
-        db_sess = db_session.create_session()
-        db_sess.add(user)
-        db_sess.commit()
-        try:
-            return redirect(f'http://127.0.0.1:8080/start?secret-key={user.id}&name={user.name}')
-        except Exception:
+
+        db_sess = db_session.create_session().query(User)
+        all_users = db_sess.filter(User.email_id == email).first()
+
+        if all_users:
             return render_template('login.html', error='Почта уже используется')
+        else:
+            user = User()
+            user.name = name
+            user.email_id = email
+            user.password = password
+            db_sess = db_session.create_session()
+            db_sess.add(user)
+            db_sess.commit()
+
+            return redirect(f'http://127.0.0.1:8080/start?secret-key={user.id}&name={user.name}')
     if request.method == 'GET':
         return render_template('login.html')
 

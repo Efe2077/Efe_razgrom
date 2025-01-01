@@ -5,9 +5,9 @@ import pymorphy2
 from docxtpl import DocxTemplate
 
 
-def delete_file(id_of_file, folder):
-    if f'{id_of_file}.docx' in os.listdir(f'C:\PythonProject\Efe_razgrom/{folder}'):
-        os.remove(f'{folder}/{id_of_file}.docx')
+def delete_file(id_of_file, folder, official=''):
+    if f'{id_of_file}{official}.docx' in os.listdir(f'C:\PythonProject\Efe_razgrom/{folder}'):
+        os.remove(f'{folder}/{id_of_file}{official}.docx')
 
 
 def make_dicts(names):

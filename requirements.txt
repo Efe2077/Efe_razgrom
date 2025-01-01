@@ -1,4 +1,0 @@
-SQLAlchemy
-flask
-pymorphy2
-docxtpl
