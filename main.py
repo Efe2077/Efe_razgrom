@@ -39,7 +39,7 @@ def start():
             return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
         if 'redact' in value:
             db_sess = db_session.create_session().query(Info).filter(Info.id == value[6:])
-            return render_template(f'redaction.html', info=db_sess)
+            return render_template('redaction.html', info=db_sess)
         if 'download_file' in value:
             db_sess = db_session.create_session().query(Info).filter(Info.id == value[13:]).first()
             render_doc(db_sess.fio, db_sess.post, db_sess.event,
