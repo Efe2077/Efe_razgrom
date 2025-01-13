@@ -7,11 +7,14 @@
     .form_auth_block_head_text {
     bottom: 170px;
     position: relative;
+    left: 130px;
     }
     .form_auth_style {
+    justify-content: center;
     bottom: 160px;
     left: 57px;
     position: relative;
+    width: 345.77px
     }
     body {
       font-family: Arial, sans-serif;
@@ -29,12 +32,10 @@
       font-size: 25px; /* Размер шрифта для полей ввода */
     }
     .form_auth_button {
-      font-size: 20px; /* Размер шрифта для кнопки */
-      top: 20px;
-      left: 57px;
+      transform: translate(-175%, 415%);
       background: #ffd77f;
       color: #ff2f8c;
-      position: relative;
+      font-size: 30px; /* Размер шрифта для кнопки */
     }
     body {
             display: flex;
@@ -71,9 +72,11 @@
           <div>
             <input type="password" name="password" id="password" placeholder="Пароль" required >
           </div>
-          <button class="form_auth_button" type="submit" name="form_auth_submit">Войти</button>
         </form>
       </div>
+    </div>
+    <div>
+      <button class="form_auth_button" type="submit" name="form_auth_submit">Войти</button>
     </div>
 </body>
 </html>
