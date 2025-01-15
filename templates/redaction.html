@@ -21,17 +21,17 @@
   <form method="post">
     {% for item in info%}
     <div class="border_rounded">
-      <div>{{item.fio}} <input type="text" name="change_fio" id="change_fio" pattern="[А-Яа-яЁё ]{3,100}"> </div>
-      <div>{{item.post}} <input type="text" name="change_post" id="change_post" pattern="[А-Яа-яЁё ]{3,100}"> </div>
-      <div>{{item.event}} <input type="text" name="change_event" id="change_event" pattern="[0-9][А-Яа-яЁё ]{3,100}"> </div>
-      <div>{{item.sch_class}} <input type="text" name="change_sch_class" id="change_sch_class" pattern="[0-9]{1,4}[А-Яа-яЁё ]{1,2}"> </div>
-      <div>{{item.quantity}} <input type="number" name="change_quantity" id="change_quantity" pattern="{1,4}"> </div>
+      <div>{{item.fio}} <input type="text" name="change_fio" id="change_fio"> </div>
+      <div>{{item.post}} <input type="text" name="change_post" id="change_post"> </div>
+      <div>{{item.event}} <input type="text" name="change_event" id="change_event"> </div>
+      <div>{{item.sch_class}} <input type="text" name="change_sch_class" id="change_sch_class"> </div>
+      <div>{{item.quantity}} <input type="number" name="change_quantity" id="change_quantity"> </div>
       <div>{{item.when_go}} <input type="date" name="change_when_go" id="change_when_go"> </div>
-      <div>{{item.place}} <input type="text" name="change_place" id="change_place" pattern="[0-9][А-Яа-яЁё ]{3,100}"> </div>
+      <div>{{item.place}} <input type="text" name="change_place" id="change_place"> </div>
       <div>{{item.time_go}} <input type="time" name="change_time_go" id="change_time_go"> </div>
       <div>{{item.time_ar}} <input type="time" name="change_time_ar" id="change_time_ar"> </div>
       <div>{{item.time_now}} <input type="date" name="change_time_now" id="change_time_now"> </div>
-      <div>{{item.people}} <input type="text" name="change_people" id="change_people" pattern="[А-Яа-яЁё ]{3,100}"> </div>
+      <div>{{item.people}} <input type="text" name="change_people" id="change_people"> </div>
       <div>
         <button formmethod="post" name="save_changes{{item.id}}" id="save_changes">Сохранить</button>
       </div>

@@ -83,8 +83,3 @@ def render_official_doc(name, grade, address, event, date, time1, time2, name_of
     doc = DocxTemplate("prikaz.docx")
     doc.render(context)
     doc.save(f"outputs_from_admin/{name_of_file}res_prikaz.docx")
-
-
-# render_official_doc('Миндрин Матвей Юрьевич', '10М', 'Школа 1018, Шолохова 20',
-#                     'Дом бобра', '01.01.2025', '8:15',
-#                     '14.10.2024', '5')
