@@ -15,7 +15,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-db_session.global_init("db/blog.db")
 
 
 @app.route('/')
@@ -37,7 +36,7 @@ def start():
         name = line.get('name')
 
         if value == 'make_form':
-            return redirect(f'https://efeshka.pythonanywhere.com/form?secret-key={user_id}&name={name}')
+            return redirect(f'http://127.0.0.1:8080/form?secret-key={user_id}&name={name}')
         if 'redact' in value:
             db_sess = db_session.create_session().query(Info).filter(Info.id == value[6:])
             return render_template('redaction.html', info=db_sess)
@@ -94,7 +93,7 @@ def start():
                     elif command[num] == 'change_people':
                         info.people = i
             db_sess.commit()
-            return redirect(f'https://efeshka.pythonanywhere.com/start?secret-key={user_id}&name={name}')
+            return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
         if 'admin_download' in value:
             info = db_session.create_session().query(Info).filter(Info.id == value[14:]).first()
             render_official_doc(info.fio, info.sch_class, info.place, info.event,
@@ -113,7 +112,7 @@ def start():
             db_sess = db_session.create_session()
             db_sess.query(Info).filter(Info.id == id_of_delete).delete()
             db_sess.commit()
-            return redirect(f'https://efeshka.pythonanywhere.com/start?secret-key={user_id}&name={name}')
+            return redirect(f'http://127.0.0.1:8080/start?secret-key={user_id}&name={name}')
     else:
         value_of_id = request.args.get('secret-key')
         name = request.args.get('name')
@@ -140,7 +139,7 @@ def start():
 @app.route('/form', methods=['GET', 'POST'])
 def show_info():
     if request.method == 'GET':
-        return render_template('/questions.html')
+        return render_template('/questions2.html')
     if request.method == 'POST':
         line = request.args.get('secret-key')
         for user in db_session.create_session().query(User):
@@ -172,7 +171,7 @@ def show_info():
                 print(db_sess)
                 db_sess.add(info)
                 db_sess.commit()
-                return redirect(f'https://efeshka.pythonanywhere.com/start?secret-key={line}&name={user.name}')
+                return redirect(f'http://127.0.0.1:8080/start?secret-key={line}&name={user.name}')
         return render_template('start.html')
 
 
@@ -198,7 +197,7 @@ def nex():
             db_sess.add(user)
             db_sess.commit()
 
-            return redirect(f'https://efeshka.pythonanywhere.com/start?secret-key={user.id}&name={user.name}')
+            return redirect(f'http://127.0.0.1:8080/start?secret-key={user.id}&name={user.name}')
 
     if request.method == 'GET':
         return render_template('login.html')
@@ -213,8 +212,13 @@ def sign_in():
         db_sess = db_session.create_session()
         for user in db_sess.query(User):
             if email == user.email_id and password == user.password:
-                return redirect(f'https://efeshka.pythonanywhere.com/start?secret-key={user.id}&name={user.name}')
+                return redirect(f'http://127.0.0.1:8080/start?secret-key={user.id}&name={user.name}')
 
         return render_template('sign in.html', error='Проверьте данные')
     if request.method == 'GET':
         return render_template('sign in.html')
+
+
+if __name__ == '__main__':
+    db_session.global_init("db/blog.db")
+    app.run(port=8080, host='127.0.0.1')

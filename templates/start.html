@@ -4,43 +4,68 @@
   <meta charset="UTF-8">
   <title>Start</title>
   <style>
-    .border_rounded{
-    border: 2px outset black;
-    background-color: #E5FFFF;
-    width: 500px;
-    height: 300px;
-    bottom: 20px;
-    position: relative;
-    top: 20%;
-    left: 10%;
-    margin: 0;
+    body{
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+
     }
+    .all{
+      border: 3px rgb(54, 78, 54) solid;
+      border-radius: 10px;
+    }
+    .create{
+      margin-top: 20px;
+      margin-left: 36%;
+    }
+    .createbut{
+      color: darkolivegreen;
+    }
+    h1{
+      margin-left: 10px;
+    }
+    button{
+      background-color: white;
+      border-radius: 5px;
+      border-color: darkolivegreen;
+      margin-right: 10px;
+
+    }
+    h2{
+      margin-left: 10px;
+    }
+    .text{
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+
   </style>
 </head>
 <body>
   <form method="post">
-    <div>{{link}}</div>
-    <div>
-      <button formmethod="post" type="submit" name="make_form">Создать заявку</button>
+    <div class="all">
+      <div class="create">
+          <button class="createbut" formmethod="post" type="submit" name="make_form">Создать заявку</button>
+      </div>
+      <h1>Ваши заявки</h1>
+      {% for item in info%}
+      <div class="border_rounded">
+        <h2>{{item.event}} <button formmethod="post" type="submit" name="del{{item.id}}">Удалить</button> <button formmethod="post" type="submit" name="redact{{item.id}}">Изменить</button> <button formmethod="post" type="submit" name="download_file{{item.id}}">Скачать</button></h2>
+        <div class="text">{{item.fio}}</div>
+        <div class="text">{{item.post}}</div>
+        <div class="text">{{item.event}}</div>
+        <div class="text">{{item.sch_class}}</div>
+        <div class="text">{{item.quantity}} </div>
+        <div class="text">{{item.when_go}}</div>
+        <div class="text">{{item.place}} </div>
+        <div class="text">{{item.time_go}}</div>
+        <div class="text">{{item.time_ar}}</div>
+        <div class="text">{{item.time_now}}</div>
+        <div class="text">{{item.people}}</div>
+      </div>
+      {% endfor %}
     </div>
-  <h1>Ваши заявки</h1>
-  {% for item in info%}
-  <div class="border_rounded">
-    <h2>{{item.event}} <button formmethod="post" type="submit" name="del{{item.id}}">Удалить</button> <button formmethod="post" type="submit" name="redact{{item.id}}">Изменить</button> <button formmethod="post" type="submit" name="download_file{{item.id}}">Скачать</button></h2>
-    <div>{{item.fio}}</div>
-    <div>{{item.post}}</div>
-    <div>{{item.event}}</div>
-    <div>{{item.sch_class}}</div>
-    <div>{{item.quantity}} </div>
-    <div>{{item.when_go}}</div>
-    <div>{{item.place}} </div>
-    <div>{{item.time_go}}</div>
-    <div>{{item.time_ar}}</div>
-    <div>{{item.time_now}}</div>
-    <div>{{item.people}}</div>
-
-  </div>
-  {% endfor %}
   </form>
 </body>
 </html>
