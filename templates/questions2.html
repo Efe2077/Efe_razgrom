@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Заполнение формы</title>
+  <style>
+    .form_for_form {
+         display: grid;
+         justify-content: center; /* Центрирование по горизонтали */
+         align-items: center;    /* Центрирование по вертикали */
+         height: 90vh;
+         width: 500px;          /* Высота вьюпорта */
+         margin: 0;
+         border: solid rgb(74, 100, 27);
+         border-radius: 80px;
+    }
+    body {
+         background: #ffffff;
+         display: grid;
+         justify-content: center; /* Центрирование по горизонтали */
+         align-items: center;
+    }
+    label{
+      font-family:Arial,Helvetica,sans-serif;
+      font-size: 20px;
+    }
+    button{
+      width: 200px;
+      height: 40px;
+      font-size: 30px;
+      border-radius: 30px;
+      border-color: darkgreen;
+      background-color: darkolivegreen;
+      color: white;
+      margin-left: 20%;
+      margin-top: 40px;
+    }
+    .container{
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    label{
+      font-size: 20px;
+    }
+    input{
+      font-size: 15px;
+      margin-bottom: 10px;
+      margin-top: 4px;
+      border-radius: 5px;
+      text-align: center;
+      color: darkolivegreen;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <form class="form_for_form" action="#" method="post">
+    <div class="container">
+      <div>
+        <label>Введите ваше ФИО</label>
+      </div>
+      <div>
+        <input type="text" name="fio" id="fio" pattern="[А-Яа-яЁё ]{1, 100}" maxlength="100" required="required" placeholder="Ваше ФИО">
+      </div>
+      <div>
+        <label>Введите вашу должность</label>
+      </div>
+      <div>
+        <input type="text" name="post" id="post" maxlength="50" required="required" placeholder="Ваша должность">
+      </div>
+      <div>
+        <label>Введите название мероприятия</label>
+      </div>
+      <div>
+        <input type="text" name="event" id="event" maxlength="150" required="required" placeholder="Название музея, театра и т.п">
+      </div>
+      <div>
+        <label>Введите номер и букву класса</label>
+      </div>
+      <div>
+        <input type="text" name="sch_class" id="sch_class" maxlength="4" required="required" placeholder="Номер и буква класса">
+      </div>
+      <div>
+        <label>Введите количество участников</label>
+      </div>
+      <div>
+        <input type="number" name="quantity" id="quantity" maxlength="4" required="required" placeholder="Количество">
+      </div>
+      <div>
+        <label>Введите дату проведения</label>
+      </div>
+      <div>
+        <input type="date" name="when_go" id="when_go" required="required" placeholder="Дата">
+      </div>
+      <div>
+        <label>Введите место и адрес проведения</label>
+      </div>
+      <div>
+        <input type="text" name="place" id="place" required="required" pattern="{3,100}" placeholder="Место, адрес">
+      </div>
+      <div>
+        <label>Время отъезда</label>
+      </div>
+      <div>
+        <input style="color: rgb(63, 117, 84);" type="time" name="time_go" id="time_go" required="required" placeholder="Время отъезда">
+      </div>
+      <div>
+        <label>Время прибытия</label>
+      </div>
+      <div>
+        <input style="color: rgb(63, 117, 84);" type="time" name="time_ar" id="time_ar" required="required" placeholder="Время прибытия">
+      </div>
+      <div>
+        <label>Сегодняшняя дата</label>
+      </div>
+      <div>
+        <input type="date" name="time_now" id="time_now" required="required" placeholder="Сегодняшняя дата">
+      </div>
+      <div>
+        <label>ФИО участников</label>
+      </div>
+      <div style="color: rgb(63, 117, 84);">
+        <input type="text" name="people" id="people" required="required" maxlength="1000" placeholder="Участники (через запятую)">
+      </div>
+      <button formmethod="post" type="submit" name="send_info_submit">Отправить</button>
+    </div>  
+      
+  </form>
+</body>
+</html>
