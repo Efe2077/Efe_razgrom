@@ -117,6 +117,8 @@ def start():
         value_of_id = request.args.get('secret-key')
         name = request.args.get('name')
 
+        email = db_session.create_session().query(User).filter(User.id == value_of_id, User.name == name).first().email_id
+
         db_session1 = db_session.create_session().query(User).filter(User.id == value_of_id, User.name == name).all()
         if db_session1:
 
@@ -128,7 +130,7 @@ def start():
                     delete_file(i.id, 'outputs_from_admin', official='res_prikaz')
                     delete_file(i.id, 'outputs')
 
-            if check_admin(name, value_of_id):
+            if check_admin(name, email):
                 return render_template('start_for_admin.html', link=f'Здравствуйте, Админ {name}', info=db_sess)
             else:
                 return render_template('start.html', link=f'Привет, {name}', info=info)
@@ -168,7 +170,6 @@ def show_info():
                 info.name = user.name
 
                 db_sess = db_session.create_session()
-                print(db_sess)
                 db_sess.add(info)
                 db_sess.commit()
                 return redirect(f'http://127.0.0.1:8080/start?secret-key={line}&name={user.name}')
@@ -208,10 +209,11 @@ def sign_in():
     if request.method == 'POST':
         email = request.form['id_email']
         password = request.form['password']
+        name = request.form['name']
 
         db_sess = db_session.create_session()
         for user in db_sess.query(User):
-            if email == user.email_id and password == user.password:
+            if email == user.email_id and password == user.password and name == user.name:
                 return redirect(f'http://127.0.0.1:8080/start?secret-key={user.id}&name={user.name}')
 
         return render_template('sign in.html', error='Проверьте данные')
