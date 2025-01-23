@@ -66,6 +66,7 @@ def render_official_doc(name, grade, address, event, date, time1, time2, name_of
     name_loc = declension(name, 'loct').capitalize()
 
     context = {
+        "name": name_acc,
         "name_nom": name,
         "name_gen": name_gen,
         "name_dat": name_dat,
