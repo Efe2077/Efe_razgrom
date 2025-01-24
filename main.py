@@ -97,7 +97,7 @@ def start():
         if 'admin_download' in value:
             info = db_session.create_session().query(Info).filter(Info.id == value[14:]).first()
             render_official_doc(info.fio, info.sch_class, info.place, info.event,
-                                info.when_go, info.time_go, info.time_now, value[14:])
+                                info.when_go, info.time_go, info.time_ar, value[14:])
 
             path = f'outputs_from_admin/{info.id}res_prikaz.docx'
             filename = f'{info.id}res_prikaz.docx'

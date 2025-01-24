@@ -58,21 +58,21 @@ def declension(name, case):
 
 
 def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
-    name = name.split()[1]
-    name_gen = declension(name, 'gent').capitalize()
-    name_dat = declension(name, 'datv').capitalize()
-    name_acc = declension(name, 'accs').capitalize()
-    name_abl = declension(name, 'ablt').capitalize()
-    name_loc = declension(name, 'loct').capitalize()
+    all_name = name.split()
+    name = all_name[0] + f' {all_name[1][0]}.{all_name[2][0]}.'
+    # name_gen = declension(name, 'gent').capitalize()
+    # name_dat = declension(name, 'datv').capitalize()
+    # name_acc = declension(name, 'accs').capitalize()
+    # name_abl = declension(name, 'ablt').capitalize()
+    # name_loc = declension(name, 'loct').capitalize()
 
     context = {
-        "name": name_acc,
-        "name_nom": name,
-        "name_gen": name_gen,
-        "name_dat": name_dat,
-        "name_acc": name_acc,
-        "name_abl": name_abl,
-        "name_loc": name_loc,
+        "name": name,
+        # "name_gen": name_gen,
+        # "name_dat": name_dat,
+        # "name_acc": name_acc,
+        # "name_abl": name_abl,
+        # "name_loc": name_loc,
         "grade": grade,
         "event": event,
         "address": address,
