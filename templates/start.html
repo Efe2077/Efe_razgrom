@@ -14,13 +14,19 @@
     .all{
       border: 3px rgb(54, 78, 54) solid;
       border-radius: 10px;
+      max-width: 650px;
     }
     .create{
+      position: sticky;
+      top: 5px;
       margin-top: 20px;
-      margin-left: 36%;
     }
     .createbut{
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      top: 5px;
       color: darkolivegreen;
+      margin-left: 35%;
     }
     h1{
       margin-left: 10px;
@@ -44,10 +50,13 @@
 </head>
 <body>
   <form method="post">
+    <div class="create">
+      <button class="createbut" formmethod="post" type="submit" name="make_form">Создать заявку</button>
+    </div>
+    <h1>
+
+    </h1>
     <div class="all">
-      <div class="create">
-          <button class="createbut" formmethod="post" type="submit" name="make_form">Создать заявку</button>
-      </div>
       <h1>Ваши заявки</h1>
       {% for item in info%}
       <div class="border_rounded">

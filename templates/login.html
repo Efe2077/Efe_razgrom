@@ -5,11 +5,10 @@
   <title>Авторизация</title>
   <style>
     .form_auth_style {
-    justify-content: center;
     bottom: 160px;
-    left: 111px;
+    margin: 0 auto;
     position: relative;
-    width: 345.77px
+    width: 345.77px;
     }
     body {
       font-family: Arial, sans-serif;
@@ -19,20 +18,24 @@
     .form_auth_block_head_text {
       bottom: 170px;
       position: relative;
-      left: 57px;
+      margin: 0 auto;
       font-size: 70px; /* Размер шрифта заголовка */
       font-weight: bold; /* Жирный шрифт для заголовка */
     }
     label {
       font-size: 40px; /* Размер шрифта для меток */
     }
+    .error{
+      color: #ff0000;
+    }
     input {
       font-size: 25px; /* Размер шрифта для полей ввода */
     }
-    .form_auth_button {
+    .form_auth_button{
       font-size: 30px; /* Размер шрифта для кнопки */
       background: #ffd77f;
       color: #ff2f8c;
+      margin-left: 3%;
     }
     body {
             display: flex;
@@ -49,6 +52,9 @@
         <p class="form_auth_block_head_text">Авторизация</p>
         <form class="form_auth_style" action="#" method="post">
           <div>
+            <label>{{error}}</label>
+          </div>
+          <div>
             <label>Введите ваше имя</label>
           </div>
           <div>
@@ -56,9 +62,6 @@
           </div>
           <div>
             <label>Введите эл.почту</label>
-          </div>
-          <div>
-            <label>{{error}}</label>
           </div>
           <div>
             <input type="email" name="id_email" id="id_emmail" placeholder="Почта" required >

@@ -7,14 +7,16 @@
     .form_auth_block_head_text {
     bottom: 170px;
     position: relative;
-    left: 130px;
+    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     }
     .form_auth_style {
     justify-content: center;
     bottom: 160px;
-    left: 57px;
+    margin: 0 auto;
     position: relative;
-    width: 345.77px
+    width: 345.77px;
     }
     body {
       font-family: Arial, sans-serif;
@@ -22,11 +24,16 @@
       font-weight: Regular;
     }
     .form_auth_block_head_text {
+      bottom: 170px;
+      margin-left: 25%;
       font-size: 70px; /* Размер шрифта заголовка */
       font-weight: bold; /* Жирный шрифт для заголовка */
     }
     label {
       font-size: 40px; /* Размер шрифта для меток */
+    }
+    .error{
+      color: #ff0000;
     }
     input {
       font-size: 25px; /* Размер шрифта для полей ввода */
@@ -35,6 +42,7 @@
       background: #ffd77f;
       color: #ff2f8c;
       font-size: 30px; /* Размер шрифта для кнопки */
+      margin-left: 31%;
     }
     body {
             display: flex;
@@ -51,7 +59,7 @@
         <p class="form_auth_block_head_text">Вход</p>
         <form class="form_auth_style" action="#" method="post">
           <div>
-            <label>{{error}}</label>
+            <label class="error">{{error}}</label>
           </div>
           <div>
             <label>Введите ваше имя</label>
