@@ -1,8 +1,10 @@
 import os
 from math import ceil
-import pymorphy2
+import pymorphy3
 
 from docxtpl import DocxTemplate
+
+from declension import get_fio
 
 
 def delete_file(id_of_file, folder, official=''):
@@ -52,27 +54,19 @@ def render_doc(name, post, event, grade, number, date, address, time1, date2, it
 
 
 def declension(name, case):
-    morph = pymorphy2.MorphAnalyzer()
+    morph = pymorphy3.MorphAnalyzer()
     parsed_name = morph.parse(name)[0]
     return parsed_name.inflect({case}).word
 
 
 def render_official_doc(name, grade, address, event, date, time1, time2, name_of_file):
-    all_name = name.split()
-    name = all_name[0] + f' {all_name[1][0]}.{all_name[2][0]}.'
-    # name_gen = declension(name, 'gent').capitalize()
-    # name_dat = declension(name, 'datv').capitalize()
-    # name_acc = declension(name, 'accs').capitalize()
-    # name_abl = declension(name, 'ablt').capitalize()
-    # name_loc = declension(name, 'loct').capitalize()
+    a = get_fio(name)
 
     context = {
-        "name": name,
-        # "name_gen": name_gen,
-        # "name_dat": name_dat,
-        # "name_acc": name_acc,
-        # "name_abl": name_abl,
-        # "name_loc": name_loc,
+        "name": a[0],
+        "name_gen": a[2],
+        "name_dat": a[3],
+        "name_acc": a[1],
         "grade": grade,
         "event": event,
         "address": address,

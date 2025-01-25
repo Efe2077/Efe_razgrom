@@ -117,9 +117,11 @@ def start():
         value_of_id = request.args.get('secret-key')
         name = request.args.get('name')
 
-        email = db_session.create_session().query(User).filter(User.id == value_of_id, User.name == name).first().email_id
+        email = db_session.create_session().query(User).filter(User.id == value_of_id, User.name == name).first()
+        if email:
+            email = email.email_id
 
-        db_session1 = db_session.create_session().query(User).filter(User.id == value_of_id, User.name == name).all()
+        db_session1 = db_session.create_session().query(User).filter(User.id == value_of_id, User.name == name).first()
         if db_session1:
 
             db_sess = db_session.create_session().query(Info)
