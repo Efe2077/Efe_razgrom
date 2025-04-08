@@ -17,7 +17,7 @@ def make_dicts(names):
 
     for value in names.split(', '):
         value = value.rstrip()
-        lst.append(value)
+        lst.append(" ".join([name.capitalize() for name in value.split()]))
 
     all_dict = []
 
@@ -34,14 +34,14 @@ def make_dicts(names):
 
 
 def render_doc(name, post, event, grade, number, date, address, time1, date2, items, time2, name_of_file):
-    doc = DocxTemplate("test2.docx")
+    doc = DocxTemplate("zayvka.docx")
     context = {
-        "name": name,
-        "post": post,
+        "name": " ".join([nm.capitalize() for nm in name.split()]),
+        "post": post.capitalize(),
         "event": event,
         "grade": grade,
         "number": number,
-        "address": address,
+        "address": address.capitalize(),
         "date": date,
         "time1": time1,
         "time2": time2,
